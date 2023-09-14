@@ -30,7 +30,7 @@ client.on('message', (channel, tags, message, self) => {
   if (message.toLowerCase().startsWith('!q')) {
     if (cooldowns.has(tags.username)) {
       const lastUsed = cooldowns.get(tags.username);
-      const cooldownTime = 1 * 1000; 
+      const cooldownTime = 60 * 1000; 
       const timeLeft = lastUsed + cooldownTime - Date.now();
 
       if (timeLeft > 0) {
@@ -40,7 +40,7 @@ client.on('message', (channel, tags, message, self) => {
       }
     }
 
-    const text = message.substring('!pudge'.length).trim();
+    const text = message.substring('!q'.length).trim();
     if (text.length > 0) {
       const userRequest = {
         username: tags.username,
@@ -65,7 +65,7 @@ const WebSocket = require('ws');
 
 const server = new WebSocket.Server({ port: 8080 });
 
-const clients = new Set(); // Сет для хранения подключенных клиентов
+const clients = new Set();
 
 server.on('connection', socket => {
   console.log('Новое подключение');
