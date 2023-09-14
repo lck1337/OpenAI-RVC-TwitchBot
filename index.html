@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket</title>
+</head>
+<body>
+
+  <script>
+    (async() => {
+    const socket = new WebSocket('ws://192.168.0.102:8080');
+
+    let audioQueue = [];
+
+    socket.addEventListener('open', () => {
+      console.log('Connected');
+    });
+
+    socket.addEventListener('message', event => {
+      const message = event.data;
+      console.log(message);
+        audioQueue.push(message);
+    });
+
+
+    socket.addEventListener('close', () => {
+      console.log('Connection close');
+    });
+
+    while(true) {
+      await new Promise((res) => { setTimeout(res, 1000) });
+      console.log(audioQueue);
+      if(!audioQueue.length) continue;
+      const audioLink = audioQueue.shift();
+      const audio = new Audio(`http://192.168.0.102:7897/file=${encodeURIComponent(audioLink)}`);
+      audio.play();
+      await new Promise((res) => { audio.addEventListener("ended", res); });
+    }
+
+  })();
+  </script>
+</body>
+</html>
