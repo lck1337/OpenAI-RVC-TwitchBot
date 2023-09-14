@@ -10,7 +10,7 @@ module.exports = class rvcClient {
     
    async init() {
     return new Promise((res) => {
-    this.ws = new WebSocket('ws://localhost:7897/queue/join');    
+    this.ws = new WebSocket('ws://127.0.0.1:7897/queue/join');    
     this.ws.on('error', console.error);
 
 
@@ -29,7 +29,7 @@ module.exports = class rvcClient {
 
    async convert(path) {
     return new Promise((res) => {
-    this.ws = new WebSocket('ws://192.168.0.102:7897/queue/join');    
+    this.ws = new WebSocket('ws://127.0.0.1:7897/queue/join');    
     this.ws.on('error', console.error);
 
 
